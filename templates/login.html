@@ -12,53 +12,29 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
         <!-- 구글폰트 -->
-        <link href="https://fonts.googleapis.com/css?family=Stylish&display=swap" rel="stylesheet">
-
-
-        <title>  </title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
 
         <!-- style -->
-        <style type="text/css">
+        <style>
             * {
-                font-family: "Stylish", sans-serif;
+                font-family: 'Noto Sans KR', sans-serif;
             }
-
-            .wrap {
-                width: 900px;
-            }
-
-            .comment {
-                color: blue;
-                font-weight: bold;
-            }
-          
-            #post-box {
-                width: 500px;
-                margin: 20px auto;
-                padding: 50px;
-                border: black solid;
-                border-radius: 5px;
-            }
-            .mod-title{
-                width: 300px
-            }
-            .mod-text{
+            img {
+                display: block;
+                margin: 0px auto;
                 width: 300px;
+                height: auto;
+                margin-bottom: 20px;
             }
-            .each_card{
-                border: 1px solid; 
-                border-color:gray; 
-                width: 350px; 
-                height: auto; 
-                padding: 10px; 
-                margin: 10px;
-                
+            h5 {
+                text-align: center;
+                margin-bottom: 20px;
             }
-            #card-list{
-                border: 1px solid black; 
-                width: 1200px; height: 500px; 
-                margin: 10px; padding: 20px; 
-                display: flex; flex-direction: column; align-content: flex-start; flex-wrap: wrap;
+            .login_layout{
+                width: 300px;
+                margin: auto;
             }
         </style>
         <script>
@@ -74,7 +50,13 @@
                         url: "/api/login", // /memo라는 url에 요청하겠다.
                         data: {user_id: user_id, password: user_pw}, // 데이터를 주는 방법
                         success: function (response) { // 성공하면
-                          window.location.href='/mental_survey'
+                            if(response == "fail"){
+                                alert("아이디와 비밀번호를 확인하시길 바랍니다.")
+                            }
+                            else{
+                                window.location.href='/mental_survey'
+                            }
+                          
                         }
                     })
                 }
@@ -119,30 +101,28 @@
                 }
             });
         }
-            
-            
-
-        
         </script>
-
     </head>
     <body>
-        <div class="jumbotron" style="margin: 30px;">
-            <h1>로그인 페이지 구현 <span class="badge badge-secondary" id="jinja2">ver 2.0</span></h1>
-            <div  style="width: 500px;">
-                
-                    <div class="form-group">
-                        <input id="sign-id" class="form-control" placeholder="id를 입력하세요."> 
-                        </br>
-                        <input id="sign-pw" class="form-control" placeholder="pw를 입력하세요." type="password"> 
-                        </br>                
-                      <button type="submit" btn btn-primary" onclick="window.location.href='/sign_up'">회원가입</button>    
-                        
-                    <button type="submit" btn btn-primary" onclick="login_site()">로그인</button>
-                    </div>
+        <div style="margin: 80px;">
+            <img src="..\static\logo.png">
+            <h5><strong>LOGIN FOR JUNGLER MENTAL</strong></h5>
+            <div class="login_layout">
+                <div class="mb-3">
+                    <input id="sign-id" class="form-control" placeholder="아이디">               
+                </div>
+                <div class="mb-3">
+                    <input id="sign-pw" class="form-control" placeholder="비밀번호" type="password">                
+                </div>          
+                <div align="right">
+                    <!-- 회원가입 버튼 클릭 시 회원가입 페이지로 이동 -->
+                    <button class="btn btn-outline-success btn-sm" onclick="window.location.href='/sign_up'" type="submit" id="sign_up">회원가입</button>
+    
+                    <!-- DB에 있는 ID와 PW가 일치하면 메인페이지로 이동 -->
+                    <button class="btn btn-outline-success btn-sm" id="login" type="submit" onclick="login_site()" id="login">로그인</button>
+                </div>
             </div>
         </div>
       </div>
     </body>
-
 </html>

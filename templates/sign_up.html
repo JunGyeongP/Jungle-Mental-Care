@@ -1,38 +1,41 @@
-<!DOCTYPE html>
-<html>
+<!Doctype html>
+<html lang="ko">
   <head>
+    <!-- Required meta tags -->
     <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
-        <!-- 구글폰트 -->
-        <link href="https://fonts.googleapis.com/css?family=Stylish&display=swap" rel="stylesheet">
-
-
+    <!-- 구글폰트 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
+    
+    <!-- style -->
     <style>
-      * {
-        font-family: "Noto Sans KR", sans-serif;
+      *{
+        font-family: 'Noto Sans KR', sans-serif;
       }
 
       .container {
         position: absolute;
         width: 400px;
-        height: 600px;
+        height: 450px;
         background-color: lightgray;
         border-radius: 5px;
         margin-left: -200px;
-        margin-top: -100px;
+        margin-top: -70px;
         left: 50%;
         top: 20%;
       }
 
       .login-box {
-        margin-top: 20px;
-      }
+            margin-top: 20px;
+      } 
 
       img {
         display: block;
@@ -41,8 +44,10 @@
         height: auto;
         margin-bottom: 20px;
       }
-      button {
-        display: block;
+
+      h5{
+        text-align: center;
+        margin-bottom: 20px;
       }
     </style>
     <script>
@@ -74,31 +79,36 @@
           },
         });
       }
-      // 비밀번호 재확인 기능 구현
+
     </script>
   </head>
   <body>
     <div class="container">
       <h1></h1>
-      <div class="wrap">
-        <div class="jumbotron" style="margin: 30px;">
-            <div  style="width: 500px;">
-                
-                    <div class="form-group">
-                        <input id="input-id" class="form-control" placeholder="id를 입력하세요.">
-                        </br>
-                        <input id="input-pw" class="form-control" placeholder="pw를 입력하세요." type="password"> 
-                        </br>
-                        <input id="input-name" class="form-control" placeholder="이름을 입력하세요."> 
-                        </br>
-                        <input id="input-email" class="form-control" placeholder="e-mail을 입력하세요."> 
-                        </br>
-                        
-                    <button type="submit" class="btn btn-primary" onclick="CreateId()">저장하기</button>
-                    </div>
+      <div class="login-box">
+        <img src="..\static\logo.png">
+        <h5><strong>SIGN UP FOR JUNGLER MENTAL</strong></h5>
+        <div style="margin: 30px;">
+          <div style="width: 310px;">
+            <div class="mb-3">
+              <input id="input-id" class="form-control" placeholder="아이디">
             </div>
+            <div class="mb-3">
+                <!-- 비밀번호 입력 -->
+                <input id="input-pw" class="form-control" placeholder="비밀번호" type="password"> 
+            </div>
+            <div class="mb-3">
+                <!-- 이름 입력 -->
+                <input id="input-name" class="form-control" placeholder="이름을 입력하세요."> 
+            </div>
+            <div class="mb-3">
+                <!-- 이메일 입력 -->
+                <input id="input-email"class="form-control" placeholder="이메일"/>
+            </div>
+            <button style="width: 310px;" type="submit" class="btn btn-outline-success btn-sm" onclick="CreateId()">회원가입</button>
+          </div>  
         </div>
-
+      </div>
         <!-- 회원가입 완료 후, 로그인 페이지로 이동 -->
       </div>
     </div>
