@@ -1,65 +1,201 @@
-<!Doctype html>
-<html lang="ko">
+<!DOCTYPE html>
+<html>
 <head>
-  <!-- Required meta tags -->
-  <meta charset="utf-8" />
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1, shrink-to-fit=no"
-  />
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <link
-    rel="stylesheet"
-    href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
-    crossorigin="anonymous"
-  />
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script
-    src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-    crossorigin="anonymous"
-  ></script>
-  <script
-    src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-    crossorigin="anonymous"
-  ></script>
+   <title>JUNGLER MENTAL</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- 폰트 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+        integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
 
-  <!-- 구글폰트 -->
-  <link
-    href="https://fonts.googleapis.com/css?family=Stylish&display=swap"
-    rel="stylesheet"
-  />
+    <!-- Optional JavaScript -->
+    <!-- jQuery and Bootstrap Bundle (includes Popper) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            font-family: 'Noto Sans KR', sans-serif;
+        }
 
-  <title>설문지</title>
-  <script>
-    function logout_site() {
-      //카드 업데이트 함수(i를 받아오는 이유 : 카드를 만들 때 카드마다 별도의 id값을 만들어 i값을 통해 각각의 카드의 input과 textarea의 값을 받아오기 위함)
+        /* header */
+        a { 
+            text-decoration: none;
+            color: inherit;
+        }
 
-      $.ajax({
-        type: "GET",
-        url: "/api/logout",
+        li { list-style-type: none; }
 
-        success: function (response) {
-          if (response["result"] == "success") {
-            // 2. '삭제 완료! 안녕!' 얼럿을 띄웁니다.
-            alert("로그아웃 완료!");
-            window.location.href='/login'
-            // 3. 변경된 정보를 반영하기 위해 새로고침합니다.
-          } else {
-            alert("서버 오류!");
+        .hbody {
+            background-color: black;
+            width: 100%;
+            height: 100px;
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 50px;
+            color: white;
+        }
+
+        .title {
+            font-size: 1.5em;
+        }
+
+        .title > a {
+            color: white;
+        }
+
+        #menu {
+            display: flex;
+            color: white;
+        }
+        #user {
+          margin-left: auto;
+          margin: 10px;
+        }
+
+        #menu > li {
+            padding: 20px 10px;
+            font-size: 20px;
+        }
+    </style>
+
+    <script>
+      
+  $(document).ready(function () {
+    //새로고침하면 다지우고 다시 리스트
+    $("#card-list").html("");
+    listCard();
+  });
+
+  function listCard() {
+    $.ajax({
+      type: "GET",
+      url: "/api/get",
+      data: {},
+      success: function (response) {
+        if (response["result"] == "success") {
+          let cards = response["cards"];
+         
+          for (let i = 0; i < cards.length; i++) {
+            makeCard(cards[i]["text"],cards[i]["number"]);
           }
-        },
-      });
-    }
-  </script>
-</head>
+        }
+      },
+    });
+  }
+  
+  function makeCard(text,number) {
+    
+    let card_txt = `<div class="card w-75">
+                      <div class="card-body">
+                        <div id="text">
+                          <p class="card-text">${text}</p>
+                        </div>
+                        <div id="check">
+                          <input type="radio" name="${number}" value="1" onclick="postValue(${number},1)">1
+                          <input type="radio" name="${number}" value="2" onclick="postValue(${number},2)">2
+                          <input type="radio" name="${number}" value="3" onclick="postValue(${number},3)">3
+                          <input type="radio" name="${number}" value="4" onclick="postValue(${number},4)">4
+                          <input type="radio" name="${number}" value="5" onclick="postValue(${number},5)">5
+                          
+                        </div>
+                      </div>
+                    </div>`;
+    $("#card-list").append(card_txt);
+  }
 
-  <h6>게시판 영역입니다.</h6>
-  <br>
-  <h4>
-    {{session['id']}}님 환영합니다.<br />
-    <button type="submit" class="btn btn-primary" onclick="logout_site()">로그아웃</button>
-  </h4>
+  function postValue(number,value){
+    console.log('postValue 함수 실행 ');
+    $.ajax({
+      type: "POST", // POST 방식으로 요청하겠다.
+      url: "/api/valuepost", 
+      data: { 'number_give': number, 'value_give': value}, // 데이터를 주는 방법
+      success: function(response){ 
+       
+      }
+    })
+  }
+  function sum(){
+    var sum = 0;
+    $.ajax({
+      type: "GET",
+      url: "/api/get",
+      data: {},
+      success: function (response) {
+        if (response["result"] == "success") {
+          let cards = response["cards"];
+          for (let i = 0; i < cards.length; i++) {
+            sum+=cards[i]['value'];
+          }
+        }
+      },
+    });
+
+    $.ajax({
+      type: "POST", // POST 방식으로 요청하겠다.
+      url: "/api/sumpost", // /memo라는 url에 요청하겠다.
+      data: { 'sum_give': sum}, // 데이터를 주는 방법
+      success: function(response){ 
+       
+      }
+    })
+
+
+  }
+    
+ 
+    </script>
+
 </head>
+<body>
+    <header>
+        <section class="hbody">
+          <article class="nav">
+            <div class="title">
+              <ul id="menu">
+                <li><a onclick="window.location.href='/mental_survey.html'">MENTAL TEST</a></li>
+                <li class="menu-item"><a href="https://jungle5b.herokuapp.com/">JUNGLE B</a></li>
+              </ul>
+            </div>
+            <div class="user">
+              <p style="color: #FFFFFF;">{{session['id']}}님 환영니다.
+                <button type="submit" class="btn-sm" style="background-color: #FFFFFF;"
+              onclick="logout_site()">로그아웃</button></p>
+               
+    
+            </div>
+          </article>
+          
+        </section>
+    </header>
+
+    <section></section>
+          <div class="wrap">
+            <div id="card-list">
+            
+            </div>
+          </div>
+        </p>
+        
+    </section>
+
+    <button type="button" class="btn btn-dark" onclick="sum()">완료</button>
+</body>
+<html>
