@@ -1,0 +1,65 @@
+<!Doctype html>
+<html lang="ko">
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, shrink-to-fit=no"
+  />
+
+  <link
+    rel="stylesheet"
+    href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+    crossorigin="anonymous"
+  />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous"
+  ></script>
+  <script
+    src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    crossorigin="anonymous"
+  ></script>
+
+  <!-- 구글폰트 -->
+  <link
+    href="https://fonts.googleapis.com/css?family=Stylish&display=swap"
+    rel="stylesheet"
+  />
+
+  <title>설문지</title>
+  <script>
+    function logout_site() {
+      //카드 업데이트 함수(i를 받아오는 이유 : 카드를 만들 때 카드마다 별도의 id값을 만들어 i값을 통해 각각의 카드의 input과 textarea의 값을 받아오기 위함)
+
+      $.ajax({
+        type: "GET",
+        url: "/api/logout",
+
+        success: function (response) {
+          if (response["result"] == "success") {
+            // 2. '삭제 완료! 안녕!' 얼럿을 띄웁니다.
+            alert("로그아웃 완료!");
+            // 3. 변경된 정보를 반영하기 위해 새로고침합니다.
+            window.location.reload();
+          } else {
+            alert("서버 오류!");
+          }
+        },
+      });
+    }
+  </script>
+</head>
+
+  <h6>게시판 영역입니다.</h6>
+  <br>
+  <h4>
+    {{session['id']}}님 환영합니다.<br />
+    <button type="submit" class="btn btn-primary" onclick="logout_site()">로그아웃</button>
+  </h4>
+</head>
