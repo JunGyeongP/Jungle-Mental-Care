@@ -52,7 +52,7 @@ def member_login():
 @app.route("/api/logout", methods=['GET','POST']) #로그아웃
 def logout():
     session.pop('id', None)
-    return render_template('login.html')
+    return jsonify({'result': 'success'})
 
 
 @app.route('/api/create', methods=['POST']) # 회원가입 페이지

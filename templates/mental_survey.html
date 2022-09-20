@@ -45,8 +45,8 @@
           if (response["result"] == "success") {
             // 2. '삭제 완료! 안녕!' 얼럿을 띄웁니다.
             alert("로그아웃 완료!");
+            window.location.href='/login'
             // 3. 변경된 정보를 반영하기 위해 새로고침합니다.
-            window.location.reload();
           } else {
             alert("서버 오류!");
           }
