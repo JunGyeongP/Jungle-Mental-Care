@@ -25,59 +25,59 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            font-family: 'Noto Sans KR', sans-serif;
-        }
+      * {
+          margin: 0;
+          padding: 0;
+          font-family: 'Noto Sans KR', sans-serif;
+      }
 
-        /* header */
-        a { 
-            text-decoration: none;
-            color: inherit;
-        }
+      /* header */
+      a { 
+          text-decoration: none;
+          color: inherit;
+      }
 
-        li { list-style-type: none; }
+      li { list-style-type: none; }
 
-        .hbody {
-            background-color: black;
-            width: 100%;
-            height: 100px;
-        }
+      .hbody {
+          background-color: black;
+          width: 100%;
+          height: 100px;
+      }
 
-        .nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 50px;
-            color: white;
-        }
+      .nav {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 15px 50px;
+          color: white;
+      }
 
-        .title {
-            font-size: 1.5em;
-        }
+      .title {
+          font-size: 1.5em;
+      }
 
-        .title > a {
-            color: white;
-        }
+      .title > a {
+          color: white;
+      }
 
-        #menu {
-            display: flex;
-            color: white;
-        }
-        #user {
-          margin-left: auto;
-          margin: 10px;
-        }
+      #menu {
+          display: flex;
+          color: white;
+      }
+      #user {
+        margin-left: auto;
+        margin-top: 5px;
+        margin: 20px;
+      }
 
-        #menu > li {
-            padding: 20px 10px;
-            font-size: 20px;
-        }
-    </style>
+      #menu > li {
+          padding: 20px 10px;
+          font-size: 20px;
+      }
+  </style>
 
-    <script>
-      
+  <script>
   $(document).ready(function () {
     //새로고침하면 다지우고 다시 리스트
     $("#card-list").html("");
@@ -132,6 +132,26 @@
       }
     })
   }
+  function logout_site() {
+    $.ajax({
+                type: "GET",
+                url: "/api/logout",
+                
+                success: function (response) {
+                    if (response['result'] == 'success') {
+                        // 2. '삭제 완료! 안녕!' 얼럿을 띄웁니다.
+                        alert('로그아웃 완료!');
+                        // 3. 변경된 정보를 반영하기 위해 새로고침합니다.
+                        window.location.href='/login'
+                    }
+                    else {
+                      alert("서버 오류!");
+                    }
+                }
+            });
+            
+  }
+
   function sum(){
     var sum = 0;
     $.ajax({
@@ -156,8 +176,6 @@
        
       }
     })
-
-
   }
     
  
@@ -170,7 +188,7 @@
           <article class="nav">
             <div class="title">
               <ul id="menu">
-                <li><a onclick="window.location.href='/mental_survey.html'">MENTAL TEST</a></li>
+                <li><a onclick="window.location.href='/mental_survey'">MENTAL TEST</a></li>
                 <li class="menu-item"><a href="https://jungle5b.herokuapp.com/">JUNGLE B</a></li>
               </ul>
             </div>
