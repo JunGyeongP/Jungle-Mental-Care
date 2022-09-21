@@ -25,7 +25,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     
     <style>
-      * {
+      * { 
           margin: 0;
           padding: 0;
           font-family: 'Noto Sans KR', sans-serif;
@@ -61,10 +61,16 @@
           color: white;
       }
 
+      .menu-item2 a{ /* JUNGLE B 하이퍼링크 밑줄, 색깔 없애기*/
+        text-decoration: none;
+        color: inherit; 
+      }
+
       #menu {
           display: flex;
           color: white;
       }
+      
       #user {
         margin-left: auto;
         margin-top: 5px;
@@ -75,111 +81,206 @@
           padding: 20px 10px;
           font-size: 20px;
       }
+
+      /* body */
+      .introduce{ /* 소개글 */
+        width: 860px;
+        margin: 10px auto;
+        padding: 10px 20px;
+        padding-bottom: 0;
+      }
+
+      #card-list { 
+        width: 900px;
+        margin: 0 auto;
+        padding: 20px;
+        padding-top: 0;
+        padding-bottom: 25px;
+      }
+
+      .introduce-body{
+        width: 860px;
+        margin: 10px auto;
+        padding: 30px;
+        padding-bottom: 0;
+        font-weight: 500;
+        text-align: center;
+      }
+
+      #survey_submit {
+        width: 860px;
+        margin: 0 auto;
+      }
+
+      .answer {
+        margin: auto;
+      }
+      
+      #card-text {
+        text-align: center;
+      }
+    
   </style>
 
   <script>
-  $(document).ready(function () {
-    //새로고침하면 다지우고 다시 리스트
-    $("#card-list").html("");
-    listCard();
-  });
+    var card_count=0 , total=0, n_total=0, p_total = 0;
+      $(document).ready(function () {
+        //새로고침하면 다지우고 다시 리스트
+        //  $("#card-list").html("");
+        listCard();
+      });
 
-  function listCard() {
-    $.ajax({
-      type: "GET",
-      url: "/api/get",
-      data: {},
-      success: function (response) {
-        if (response["result"] == "success") {
-          let cards = response["cards"];
-         
-          for (let i = 0; i < cards.length; i++) {
-            makeCard(cards[i]["text"],cards[i]["number"]);
-          }
-        }
-      },
-    });
-  }
-  
-  function makeCard(text,number) {
-    
-    let card_txt = `<div class="card w-75">
-                      <div class="card-body">
-                        <div id="text">
-                          <p class="card-text">${text}</p>
-                        </div>
-                        <div id="check">
-                          <input type="radio" name="${number}" value="1" onclick="postValue(${number},1)">1
-                          <input type="radio" name="${number}" value="2" onclick="postValue(${number},2)">2
-                          <input type="radio" name="${number}" value="3" onclick="postValue(${number},3)">3
-                          <input type="radio" name="${number}" value="4" onclick="postValue(${number},4)">4
-                          <input type="radio" name="${number}" value="5" onclick="postValue(${number},5)">5
-                          
-                        </div>
-                      </div>
-                    </div>`;
-    $("#card-list").append(card_txt);
-  }
-
-  function postValue(number,value){
-    console.log('postValue 함수 실행 ');
-    $.ajax({
-      type: "POST", // POST 방식으로 요청하겠다.
-      url: "/api/valuepost", 
-      data: { 'number_give': number, 'value_give': value}, // 데이터를 주는 방법
-      success: function(response){ 
-       
+      function listCard() {
+        $.ajax({
+          type: "GET",
+          url: "/api/get",
+          data: {},
+          success: function (response) {
+            if (response["result"] == "success") {
+              let cards = response["cards"];
+            
+              for (let i = 0; i < cards.length; i++) {
+                makeCard(cards[i]["text"],i+1,cards[i]["np"]);
+              }
+              card_count = cards.length
+            }
+          },
+        });
       }
-    })
-  }
-  function logout_site() {
-    $.ajax({
-                type: "GET",
-                url: "/api/logout",
-                
+
+      
+      function makeCard(text,number, status) {
+        if(status=='p'){
+          let card_txt = `<br>
+                        <div class="card" id="card-${number}">
+                          <div class="card-body" style="margin: 10px;">
+                            <div id="text">
+                              <h6 class="card-title" >Question ${number}</h6>
+                              <h4 class="card-text" style="font-weight: 600;">${text}</h4>
+                            </div>
+                            <br>
+                            <div id="check" style="text-align: center;">
+                              <label class="btn btn-sm">
+                                <input type="radio" name="p${number}" id="jb-radio-1" value="1" onclick="colorChange(${number})"> 아니 무슨 말도 안 되는 소리!
+                              </label>
+                              <label class="btn btn-sm">
+                                <input type="radio" name="p${number}" id="jb-radio-1" value="2" onclick="colorChange(${number})"> 그렇진 않다.
+                              </label>
+                              <label class="btn btn-sm">
+                                <input type="radio" name="p${number}" id="jb-radio-1" value="3" onclick="colorChange(${number})"> Not Bad, Not Good
+                              </label>
+                              <label class="btn btn-sm">
+                                <input type="radio" name="p${number}" id="jb-radio-1" value="4" onclick="colorChange(${number})"> 맞아.. 그렇다.
+                              </label>
+                              <label class="btn btn-sm">
+                                <input type="radio" name="p${number}" id="jb-radio-1" value="5" onclick="colorChange(${number})"> 진짜 너무 매우 그렇다.
+                              </label>
+                              
+                            </div>
+                          </div>
+                        </div>`;      
+        $("#card-list").append(card_txt);
+      } else {
+          let card_txt = `<br>
+                        <div class="card" id="card-${number}">
+                          <div class="card-body" style="margin: 10px;">
+                            <div id="text">
+                              <h6 class="card-title" >Question ${number}</h6>
+                              <h4 class="card-text" style="font-weight: 600;">${text}</h4>
+                            </div>
+                            <br>
+                            <div id="check" style="text-align: center;">
+                              <label class="btn btn-sm">
+                                <input type="radio" name="n${number}" id="jb-radio-1" value="5" onclick="colorChange(${number})"> 아니 무슨 말도 안 되는 소리!
+                              </label>
+                              <label class="btn btn-sm">
+                                <input type="radio" name="n${number}" id="jb-radio-1" value="4" onclick="colorChange(${number})"> 그렇진 않다.
+                              </label>
+                              <label class="btn btn-sm">
+                                <input type="radio" name="n${number}" id="jb-radio-1" value="3" onclick="colorChange(${number})"> Not Bad, Not Good
+                              </label>
+                              <label class="btn btn-sm">
+                                <input type="radio" name="n${number}" id="jb-radio-1" value="2" onclick="colorChange(${number})"> 맞아.. 그렇다.
+                              </label>
+                              <label class="btn btn-sm">
+                                <input type="radio" name="n${number}" id="jb-radio-1" value="1" onclick="colorChange(${number})"> 진짜 너무 매우 그렇다.
+                              </label>
+                              
+                            </div>
+                          </div>
+                        </div>`;
+      $("#card-list").append(card_txt);
+        }
+      }
+
+      function colorChange(i) {
+        $('#card-'+i.toString()).css('background-color', '#daecde');
+        
+      }
+      
+      function survey_commit() { //카드 업데이트 함수(i를 받아오는 이유 : 카드를 만들 때 카드마다 별도의 id값을 만들어 i값을 통해 각각의 카드의 input과 textarea의 값을 받아오기 위함)
+    var check_p=0,check_n=0;
+    var p_total =0, n_total=0, total=0;
+    for (let i = 1; i <=card_count; i++) {
+         var p_truefalse=$('input[name=p'+i+']').is(":checked");
+         if(p_truefalse==true){
+           check_p=check_p+1;
+           p_total=p_total+Number($('input[name=p'+i+']:checked').val());
+         }
+       }
+
+       for (let i = 1; i <=card_count; i++) { 
+         var n_truefalse=$('input[name=n'+i+']').is(":checked");
+         if(n_truefalse==true){
+           check_n=check_n+1;
+           n_total=n_total+Number($('input[name=n'+i+']:checked').val());
+         }
+       }
+       
+       total= p_total+n_total;
+
+       var check = check_p+check_n;
+
+          if(check != card_count){
+            alert("선택하지 않은 항목이 있습니다!")
+          }
+          else{ 
+            
+            $.ajax({
+                type: "POST",
+                url: "/api/survey_commit",
+                data: {user_id: "{{session['id']}}", t_point: total, n_point: n_total, p_point:p_total},
                 success: function (response) {
                     if (response['result'] == 'success') {
-                        // 2. '삭제 완료! 안녕!' 얼럿을 띄웁니다.
-                        alert('로그아웃 완료!');
-                        // 3. 변경된 정보를 반영하기 위해 새로고침합니다.
-                        window.location.href='/login'
+                        alert("저장완료")
+                        window.location.href='/mental_result'
                     }
-                    else {
-                      alert("서버 오류!");
+                    else
+                    {
+                        alert("서버 오류");
                     }
                 }
             });
-            
-  }
-
-  function sum(){
-    var sum = 0;
-    $.ajax({
-      type: "GET",
-      url: "/api/get",
-      data: {},
-      success: function (response) {
-        if (response["result"] == "success") {
-          let cards = response["cards"];
-          for (let i = 0; i < cards.length; i++) {
-            sum+=cards[i]['value'];
           }
         }
-      },
-    });
-
-    $.ajax({
-      type: "POST", // POST 방식으로 요청하겠다.
-      url: "/api/sumpost", // /memo라는 url에 요청하겠다.
-      data: { 'sum_give': sum}, // 데이터를 주는 방법
-      success: function(response){ 
-       
+      function logout_site() {
+        $.ajax({
+          type: "GET",
+          url: "/api/logout",
+                    
+          success: function (response) {
+            if (response['result'] == 'success') {
+              alert('로그아웃 완료!');
+              window.location.href='/login'
+            }
+            else {
+              alert("서버 오류!");
+            }
+          }
+        });
       }
-    })
-  }
-    
- 
-    </script>
+
+  </script>
 
 </head>
 <body>
@@ -188,32 +289,56 @@
           <article class="nav">
             <div class="title">
               <ul id="menu">
-                <li><a onclick="window.location.href='/mental_survey'">MENTAL TEST</a></li>
-                <li class="menu-item"><a href="https://jungle5b.herokuapp.com/">JUNGLE B</a></li>
+                <li class="menu-item1"><a onclick="window.location.href='/mental_survey'">MENTAL TEST</a></li>
+                <li class="menu-item2"><a href="https://jungle5b.herokuapp.com/" target="_blank">JUNGLE B</a></li>
               </ul>
             </div>
             <div class="user">
-              <p style="color: #FFFFFF;">{{session['id']}}님 환영니다.
+              <p style="color: #FFFFFF;">정글러 {{session['id']}}님 환영합니다.
                 <button type="submit" class="btn-sm" style="background-color: #FFFFFF;"
               onclick="logout_site()">로그아웃</button></p>
-               
-    
             </div>
           </article>
           
         </section>
     </header>
 
-    <section></section>
-          <div class="wrap">
+    <section>
+          <div class="question-list">
+            <!-- 소개글 -->
+            <div class="introduce-body">
+              <div id="text">
+                <h3 class="card-text"><strong>🏝️정글 속 당신의 멘탈 상태를 확인해보세요 !💻</strong></h3>
+                <br>
+                <h6 class="card-text">정글 속에서 매순간, 매일을 몰입해서 보내고 계신 당신의 멘탈 상태를 점검해보아요.</h6>
+                <h6 class="card-text">그리 무겁지도 가볍지도 않은 질문들로 하루를 되돌아보고 결과를 살펴볼 수 있습니다.</h6>
+                <br>
+                <!-- 멘탈 설문 제출 -->
+                <button style="width: 300px;" class="btn btn-outline-success btn" type="submit" onclick="window.location.href='/mental_result'">이전 설문조사 결과 확인하기</button>
+              </div>
+            </div>
+
+            <!-- 멘탈 설문 -->
             <div id="card-list">
+              
+            </div>
             
+            <!-- 멘탈 설문 제출 -->
+            <div class="mb-3" id="survey_submit">
+            <button style="width: 860px;" class="btn btn-outline-success btn" type="submit" onclick="survey_commit()" >완료</button>
             </div>
           </div>
         </p>
-        
     </section>
 
-    <button type="button" class="btn btn-dark" onclick="sum()">완료</button>
+    <footer class="page-footer font-small cyan darken-3" style="background-color: lightgray;">
+      <div class="container" style="padding: 16px; padding-bottom: 0; text-align: center; ">
+        <p>🌱You can see our github🌴</p>
+        <a href="https://github.com/midnightkang" target="_blank">강성우</a>
+        <a href="https://github.com/JunGyeongP" target="_blank">박경준</a>
+        <a href="https://github.com/choidabom" target="_blank">최다봄</a>
+      </div>
+      <div class="footer-copyright text-center py-3">&copy; Jungle week00 Team3. All Rights Reseved.</div>
+    </footer>
 </body>
 <html>
