@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+   <title>JUNGLER MENTAL RESULT</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- 폰트 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+        integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery and Bootstrap Bundle (includes Popper) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    
+    <!-- graph 작성 시 필요 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@0.7.0"></script>   
+    
+    <style>
+      * { 
+          margin: 0;
+          padding: 0;
+          font-family: 'Noto Sans KR', sans-serif;
+      }
+
+      /* header */
+      a { 
+          text-decoration: none;
+          color: inherit;
+      }
+
+      li { list-style-type: none; }
+
+      .hbody {
+          background-color: black;
+          width: 100%;
+          height: 100px;
+      }
+
+      .nav {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 15px 50px;
+          color: white;
+      }
+
+      .title {
+          font-size: 1.5em;
+      }
+
+      .title > a {
+          color: white;
+      }
+
+      .menu-item2 a{ /* JUNGLE B 하이퍼링크 밑줄, 색깔 없애기*/
+        text-decoration: none;
+        color: inherit; 
+        
+      }
+
+      #menu {
+          display: flex;
+          color: white;
+      }
+      
+      #user {
+        margin-left: auto;
+        margin-top: 5px;
+        margin: 20px;
+      }
+
+      #menu > li {
+          padding: 20px 10px;
+          font-size: 20px;
+      }
+
+      /* body */
+      .introduce{ /* 소개글 */
+        width: 860px;
+        margin: 10px auto;
+        padding: 10px 20px;
+        padding-bottom: 0;
+      }
+
+      #card-list { 
+        width: 900px;
+        margin: 0 auto;
+        padding: 10px 20px;
+        padding-bottom: 25px;
+      }
+
+      .result-body {
+        width: 860px;
+        margin: 0 auto;
+        padding-top: 30px;
+        font-weight: 500;
+      }
+      #text{
+        text-align: center;
+      }
+  </style>
+
+  <script>
+    $(document).ready(function () {
+      show_result_graph();
+    });
+    function logout_site() {
+      $.ajax({
+        type: "GET",
+        url: "/api/logout",
+
+        success: function (response) {
+          if (response["result"] == "success") {
+            alert("로그아웃 완료!");
+            window.location.href = "/login";
+          } else {
+            alert("서버 오류!");
+          }
+        },
+      });
+    }
+    function show_result_graph() {
+      arr = [];
+      p_date = [];
+      n_date = [];
+
+      $.ajax({
+        type: "POST",
+        url: "/api/post_result",
+        data: { user_id: "{{session['id']}}" },
+
+        success: function (response) {
+          if (response["result"] == "success") {
+            let result_list = response["result_survey"];
+            for (let i = 0; i < result_list.length; i++) {
+              arr.unshift(result_list[i]["date"]);
+              p_date.unshift(result_list[i]["t_point"]);
+              n_date.unshift(100 - result_list[i]["t_point"]);
+            }
+            drawBarHeight(arr, p_date, n_date);
+          }
+        },
+      });
+    }
+    function drawBarHeight(arr, p_date, n_date) {
+      new Chart(document.getElementById("canvas"), {
+        type: "bar",
+        data: {
+          labels: arr,
+          datasets: [
+            {
+              label: "긍정적 답변",
+              data: p_date,
+              backgroundColor: "rgba(0, 128, 128, 0.5)",
+            },
+          ],
+        },
+        options: {
+          title: { display: false, text: "result" },
+          responsive: true,
+          tooltips: {
+            enabled: false,
+          },
+          hover: {
+            mode: "nearest",
+            intersect: true,
+          },
+          legend: {
+            display: true,
+          },
+          scales: {
+            xAxes: [
+              {
+                ticks: {
+                  fontSize: 10,
+                },
+                display: true,
+                stacked: false,
+                barThickness: 20,
+              },
+            ],
+            yAxes: [
+              {
+                ticks: {
+                  min: 0,
+                  max: 100,
+                  fontSize: 14,
+                },
+                display: true,
+                stacked: false,
+                barThickness: 100,
+              },
+            ],
+          },
+          plugins: {
+            datalabels: {
+              color: "black",
+              font: {
+                weight: "bold",
+              },
+              formatter: function (value, context) {
+                return Math.round(value);
+              },
+            },
+          },
+        },
+      });
+    }
+  </script>
+
+</head>
+<body>
+    <header>
+        <section class="hbody">
+          <article class="nav">
+            <div class="title">
+              <ul id="menu">
+                <li class="menu-item1"><a onclick="window.location.href='/mental_survey'">MENTAL TEST</a></li>
+                <li class="menu-item2"><a href="https://jungle5b.herokuapp.com/" target="_blank">JUNGLE B</a></li>
+              </ul>
+            </div>
+            <div class="user">
+              <p style="color: #FFFFFF;">정글러 {{session['id']}}님 환영합니다.
+                <button type="submit" class="btn-sm" style="background-color: #FFFFFF;"
+              onclick="logout_site()">로그아웃</button></p>
+            </div>
+          </article>
+          
+        </section>
+    </header>
+
+    <section>
+      <div class="mental-result">
+        <div class="result-body">
+          <div id="text">
+            <h3 class="card-text"><strong>🏝️정글 속 당신의 멘탈 상태 결과입니다 !💻</strong></h3>
+          
+          </div>
+        </div>
+      </div>
+      <div class="main" id="canvas_area">
+        <div class="chart-container" style="position: relative; height:500px; width:500px">
+            <canvas id="canvas" height="300px"></canvas>
+        </div> 
+      </div>  
+    </section>
+
+    <footer class="page-footer font-small cyan darken-3" style="background-color: lightgray;">
+      <div class="container" style="padding: 16px; padding-bottom: 0; text-align: center; ">
+        <p>🌱You can see our github🌴</p>
+        <a href="https://github.com/midnightkang" target="_blank">강성우</a>
+        <a href="https://github.com/JunGyeongP" target="_blank">박경준</a>
+        <a href="https://github.com/choidabom" target="_blank">최다봄</a>
+      </div>
+      <div class="footer-copyright text-center py-3">&copy; Jungle week00 Team3. All Rights Reseved.</div>
+    </footer>
+
+
+    
+
+</body>
+<html>
