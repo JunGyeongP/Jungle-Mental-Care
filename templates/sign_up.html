@@ -1,6 +1,8 @@
 <!Doctype html>
 <html lang="ko">
   <head>
+    <title>JUNGLER MENTAL SURVEY</title>
+
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -50,13 +52,17 @@
         margin-bottom: 20px;
       }
     </style>
+
     <script>
       function CreateId() {
         let user_id_sent = $("#input-id").val();
         let password_sent = $("#input-pw").val();
         let user_name_sent = $("#input-name").val();
         let user_email_sent = $("#input-email").val();
-
+        if(user_id_sent == ""){
+          alert("ID를 입력하세요.")
+        }
+        else{
         // 2. memo에 POST 방식으로 메모 생성 요청하기
         $.ajax({
           type: "POST", // POST 방식으로 요청하겠다.
@@ -69,7 +75,7 @@
           }, // 데이터를 주는 방법
           success: function (response) {
             if (response["result"] == "success") {
-              alert("생성완료");
+              alert("정글러님, 환영합니다 :)");
               window.location.href='/login'
             } else if (response["result"] == "false") {
               alert("존재하는 ID입니다.");
@@ -77,7 +83,7 @@
               alert("서버 오류");
             }
           },
-        });
+        });}
       }
 
     </script>
@@ -86,8 +92,8 @@
     <div class="container">
       <h1></h1>
       <div class="login-box">
-        <img src="..\static\logo.png">
-        <h5><strong>SIGN UP FOR JUNGLER MENTAL</strong></h5>
+        <a onclick="window.location.href='/login'"><img src="..\static\logo.png"></a>
+        <h5><strong><strong style="color: #0f6a08">SIGN UP</strong> FOR JUNGLER MENTAL</strong></h5>
         <div style="margin: 30px;">
           <div style="width: 310px;">
             <div class="mb-3">
@@ -105,7 +111,7 @@
                 <!-- 이메일 입력 -->
                 <input id="input-email"class="form-control" placeholder="이메일"/>
             </div>
-            <button style="width: 310px;" type="submit" class="btn btn-outline-success btn-sm" onclick="CreateId()">회원가입</button>
+            <button style="width: 310px;" type="submit" class="btn btn-outline-success btn" onclick="CreateId()">회원가입</button>
           </div>  
         </div>
       </div>

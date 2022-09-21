@@ -43,50 +43,39 @@
             function login_site() {
                 let user_id = $("#sign-id").val();
                 let user_pw = $("#sign-pw").val();
-               
+                if(user_id == ""){
+                    alert("아이디를 입력하세요!")
+                }
+                else if(user_pw == ""){
+                    alert("비밀번호를 입력하세요!")
+                }
+                else{
                 // 2. memo에 POST 방식으로 메모 생성 요청하기
                 $.ajax({
                         type: "POST", // POST 방식으로 요청하겠다.
                         url: "/api/login", // /memo라는 url에 요청하겠다.
                         data: {user_id: user_id, password: user_pw}, // 데이터를 주는 방법
                         success: function (response) { // 성공하면
-                            if(response == "fail"){
-                                alert("아이디와 비밀번호를 확인하시길 바랍니다.")
-                            }
-                            else{
+                            if (response['result'] == 'success') {
                                 window.location.href='/mental_survey'
+                                
+                            }   
+                            else if(response['result'] == 'fail'){
+                                alert("존재하지 않는 ID 입니다.")
                             }
-                          
+                            else if(response['result'] == 'pwError'){
+                                alert("비밀번호가 맞지 않습니다.")
+                            }
                         }
                     })
                 }
-        
-            function compare_id() { //카드 업데이트 함수(i를 받아오는 이유 : 카드를 만들 때 카드마다 별도의 id값을 만들어 i값을 통해 각각의 카드의 input과 textarea의 값을 받아오기 위함)
-                let user_id_sent = $("#input-id").val();
-                $.ajax({
-                    type: "POST",
-                    url: "/api/compare_id",
-                    data: {user_id: user_id_sent},
-                    success: function (response) {
-                        if (response['result'] == 'success') {
-                            alert("생성완료")
-                            window.location.reload()
-                        }
-                        else if(response['result'] == 'false'){
-                            alert("존재하는 ID입니다.");
-                        }else
-                        {
-                            alert("서버 오류");
-                        }
-                    }
-                });
             }
         </script>
     </head>
     <body>
         <div style="margin: 80px;">
             <img src="..\static\logo.png">
-            <h5><strong>LOGIN FOR JUNGLER MENTAL</strong></h5>
+            <h5><strong><strong style="color: #0f6a08">LOGIN</strong> FOR JUNGLER MENTAL</strong></h5>
             <div class="login_layout">
                 <div class="mb-3">
                     <input id="sign-id" class="form-control" placeholder="아이디">               
@@ -94,15 +83,28 @@
                 <div class="mb-3">
                     <input id="sign-pw" class="form-control" placeholder="비밀번호" type="password">                
                 </div>          
-                <div align="right">
+
+                <div class="mb-3">
                     <!-- 회원가입 버튼 클릭 시 회원가입 페이지로 이동 -->
-                    <button class="btn btn-outline-success btn-sm" onclick="window.location.href='/sign_up'" type="submit" id="sign_up">회원가입</button>
-    
+                    <button style="width: 300px;" class="btn btn-outline-success btn" onclick="window.location.href='/sign_up'" type="submit" id="sign_up">회원가입</button>
+                </div>
+
+                <div class="mb-3">
                     <!-- DB에 있는 ID와 PW가 일치하면 메인페이지로 이동 -->
-                    <button class="btn btn-outline-success btn-sm" id="login" type="submit" onclick="login_site()" id="login">로그인</button>
+                    <button style="width: 300px;" class="btn btn-outline-success btn" id="login" type="submit" onclick="login_site()" id="login">로그인</button>
                 </div>
             </div>
         </div>
       </div>
+
+      <section>
+        <div class="question-list">
+          <div id="card-list">
+
+          </div>
+        </div>
+      </p>
+      
+  </section>
     </body>
 </html>
