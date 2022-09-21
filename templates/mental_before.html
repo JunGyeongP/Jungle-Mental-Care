@@ -121,8 +121,8 @@
         text-align: center;
       }
 
-      #both-result{
-        padding: 30px;
+      #before-status{
+        padding: 20px;
         text-align: center;
       }
 
@@ -165,7 +165,46 @@
               p_date.unshift(result_list[i]["t_point"]);
               n_date.unshift(100 - result_list[i]["t_point"]);
             }
-            drawBarHeight(arr, p_date, n_date);
+
+            if(arr.length==0){
+                //alert("아직 한번도 설문을 하지 않으셨군요 !")
+                $(document).ready(function () {
+                    //새로고침하면 다지우고 다시 리스트
+                    $(".before-section").html("");
+                    let card_txt = `<div class="mental-result">
+                        <div class="result-body">
+                          <div id="text">
+                            <h3 class="card-text"><strong>🏝️아직 한 번도 설문을 하지 않으셨군요 !💻</strong></h3>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="container" id="before-status">
+                        <div class="row">
+                          <div class="col">
+                            <!-- 일주일 상태 -->
+                            <h5 class="card-text"><strong>정글 생활동안 긴장을 풀고</strong></h5>
+                            <h5 class="card-text"><strong>피식 웃어보는 순간을 위해 만들었어요.</strong></h5>
+                            <h5 class="card-text"><strong>가벼운 마음으로 테스트하시고, 몰입해서 정글에서 살아남아보아요!</strong></h5>            
+                          </div>
+                        </div>
+
+                        <h1 style="padding: 210px"><a onclick="window.location.href='/mental_survey'">👈GO TO MENTAL TEST👉</a></h1>
+                        
+                      </div>`;      
+                    $(".before-section").append(card_txt);
+                });
+
+            }
+            else{
+                drawBarHeight(arr, p_date, n_date);
+                // $(document).ready(function () {
+                //     //새로고침하면 다지우고 다시 리스트
+                //     $(".before-section").html("");
+                //     let card_txt = ``;      
+                //     $(".before-section").append(card_txt);
+                // });
+            }           
           }
         },
       });
@@ -256,7 +295,7 @@
         </section>
     </header>
 
-    <section>
+    <section class="before-section">
       <div class="mental-result">
         <div class="result-body">
           <div id="text">
@@ -265,26 +304,15 @@
         </div>
       </div>
 
-      <div class="container" id="both-result">
+      <div class="container" id="before-status">
         <div class="row">
-          <div class="col">
-            <!-- 오늘의 상태 -->
-            <div class="login-box">
-              <h5 class="card-text"><strong>🐣오늘 하루의 멘털 상태🙌</strong></h5>
-                <div>
-                  <div class="mb-3">
-                    <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Inventore, praesentium molestias accusantium voluptate nulla repellendus! Blanditiis, harum, saepe, quas id consectetur excepturi quisquam nostrum cumque at placeat earum qui culpa.</p>
-                  </div>
-                </div>  
-            </div>
-          </div>
           <div class="col">
             <!-- 일주일 상태 -->
             <h5 class="card-text"><strong>🕊️일주일간의 멘털 상태📖</strong></h5>
             <h7>긍적적으로 몰입하고 있는지 확인해보세요.</h7>
 
             <div class="main" id="canvas_area" style="margin-top: 20px;">
-              <div class="chart-container" style="position: relative; height:500px; width:500px">
+              <div class="chart-container" style="margin: 0 auto; height:500px; width:500px">
                   <canvas id="canvas" height="300px"></canvas>
               </div> 
             </div>  

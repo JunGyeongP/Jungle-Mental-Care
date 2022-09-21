@@ -26,11 +26,12 @@
       .container {
         position: absolute;
         width: 400px;
-        height: 450px;
+        height: 500px;
         background-color: lightgray;
         border-radius: 5px;
         margin-left: -200px;
         margin-top: -70px;
+
         left: 50%;
         top: 20%;
       }
@@ -59,31 +60,39 @@
         let password_sent = $("#input-pw").val();
         let user_name_sent = $("#input-name").val();
         let user_email_sent = $("#input-email").val();
-        if(user_id_sent == ""){
-          alert("ID를 입력하세요.")
-        }
-        else{
-        // 2. memo에 POST 방식으로 메모 생성 요청하기
-        $.ajax({
-          type: "POST", // POST 방식으로 요청하겠다.
-          url: "/api/create", // /memo라는 url에 요청하겠다.
-          data: {
-            user_id: user_id_sent,
-            password: password_sent,
-            user_name: user_name_sent,
-            e_mail: user_email_sent,
-          }, // 데이터를 주는 방법
-          success: function (response) {
-            if (response["result"] == "success") {
-              alert("정글러님, 환영합니다 :)");
-              window.location.href='/login'
-            } else if (response["result"] == "false") {
-              alert("존재하는 ID입니다.");
-            } else {
-              alert("서버 오류");
+        var checked = $("#email_check").is(":checked");
+            if(user_id_sent == ""){
+              alert("아이디를 입력하세요!");
             }
-          },
-        });}
+            else if(password_sent == ""){
+                alert("비밀번호를 입력하세요!");
+            }
+            else if(user_name_sent == ""){
+              alert("이름을 입력하세요!");
+            }
+            else{
+              $.ajax({
+                type: "POST", // POST 방식으로 요청하겠다.
+                url: "/api/create", // /memo라는 url에 요청하겠다.
+                data: {
+                  user_id: user_id_sent,
+                  password: password_sent,
+                  user_name: user_name_sent,
+                  e_mail: user_email_sent,
+                  email_check: checked,
+                }, // 데이터를 주는 방법
+                success: function (response) {
+                  if (response["result"] == "success") {
+                    alert("정글러님, 환영합니다 :)");
+                    window.location.href = "/login";
+                  } else if (response["result"] == "false") {
+                    alert("존재하는 ID입니다.");
+                  } else {
+                    alert("서버 오류");
+                  }
+                },
+              });
+            }
       }
 
     </script>
@@ -96,26 +105,39 @@
         <h5><strong><strong style="color: #0f6a08">SIGN UP</strong> FOR JUNGLER MENTAL</strong></h5>
         <div style="margin: 30px;">
           <div style="width: 310px;">
+            <!-- 아이디 -->
             <div class="mb-3">
               <input id="input-id" class="form-control" placeholder="아이디">
             </div>
+
+            <!-- 비밀번호 -->
             <div class="mb-3">
-                <!-- 비밀번호 입력 -->
                 <input id="input-pw" class="form-control" placeholder="비밀번호" type="password"> 
             </div>
+
+            <!-- 이름 -->
             <div class="mb-3">
-                <!-- 이름 입력 -->
-                <input id="input-name" class="form-control" placeholder="이름을 입력하세요."> 
+                <input id="input-name" class="form-control" placeholder="이름"> 
             </div>
+
+            <!-- 이메일 -->
             <div class="mb-3">
-                <!-- 이메일 입력 -->
-                <input id="input-email"class="form-control" placeholder="이메일"/>
+                <input type="email" id="input-email"class="form-control" placeholder="이메일  ex) jungler@naver.com"/>
             </div>
-            <button style="width: 310px;" type="submit" class="btn btn-outline-success btn" onclick="CreateId()">회원가입</button>
+    
+            <!-- 이메일 전송 체크박스 -->
+            <div style="margin: center;">
+              <input class="form-check-input" type="checkbox" value="yyy" id="email_check" checked>
+              <label class="form-check-label-success" for="flexCheckChecked" style="font-size: small; margin-bottom: 20px;">JUNGLER MENTAL 사이트를 이메일로 받으시겠습니까?</label>
+            </div>
+
+             <!-- 회원가입 -->
+            <div class="mb-3">
+              <button style="width: 310px;" type="submit" class="btn btn-outline-success btn" onclick="CreateId()">회원가입</button>
+            </div>
+            
           </div>  
         </div>
-      </div>
-        <!-- 회원가입 완료 후, 로그인 페이지로 이동 -->
       </div>
     </div>
   </body>
