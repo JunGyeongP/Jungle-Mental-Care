@@ -29,6 +29,15 @@
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@0.7.0"></script>   
     
     <style>
+       body {
+        width: 100%;
+        height: 100%;
+        min-width:700px; /* 최소 넓이가 지원되는 브라우져를 위해서 ...FF, IE7, safari */
+        margin: 0px;
+        padding: 0px;  /* 옵션입니다.*/
+        /* 만약 콘텐츠를 가운데 정렬로 하고 싶은 경우 text-align: center 를 타이핑 하시고,
+           패딩값을 적당하게 올려주시면 됩니다.*/
+      }
       * { 
           margin: 0;
           padding: 0;
@@ -105,12 +114,18 @@
       .result-body {
         width: 860px;
         margin: 0 auto;
-        padding-top: 30px;
+        padding: 30px;
         font-weight: 500;
       }
       #text{
         text-align: center;
       }
+
+      #both-result{
+        padding: 30px;
+        text-align: center;
+      }
+
   </style>
 
   <script>
@@ -227,9 +242,9 @@
         <section class="hbody">
           <article class="nav">
             <div class="title">
-              <ul id="menu">
+              <ul id="menu" style="font-weight: bold;">
                 <li class="menu-item1"><a onclick="window.location.href='/mental_survey'">MENTAL TEST</a></li>
-                <li class="menu-item2"><a href="https://jungle5b.herokuapp.com/" target="_blank">JUNGLE B</a></li>
+                <li class="menu-item2"><a href="https://jungle5b.herokuapp.com/" target="_blank">JUNGLE B반</a></li>
               </ul>
             </div>
             <div class="user">
@@ -238,7 +253,6 @@
               onclick="logout_site()">로그아웃</button></p>
             </div>
           </article>
-          
         </section>
     </header>
 
@@ -246,16 +260,37 @@
       <div class="mental-result">
         <div class="result-body">
           <div id="text">
-            <h3 class="card-text"><strong>🏝️정글 속 당신의 멘탈 상태 결과입니다 !💻</strong></h3>
-          
+            <h3 class="card-text"><strong>🏝️정글 속 {{session['id']}}님의 멘털 상태 결과입니다 !💻</strong></h3>
           </div>
         </div>
       </div>
-      <div class="main" id="canvas_area">
-        <div class="chart-container" style="position: relative; height:500px; width:500px">
-            <canvas id="canvas" height="300px"></canvas>
-        </div> 
-      </div>  
+
+      <div class="container" id="both-result">
+        <div class="row">
+          <div class="col">
+            <!-- 오늘의 상태 -->
+            <div class="login-box">
+              <h5 class="card-text"><strong>🐣오늘 하루의 멘털 상태🙌</strong></h5>
+                <div>
+                  <div class="mb-3">
+                    <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Inventore, praesentium molestias accusantium voluptate nulla repellendus! Blanditiis, harum, saepe, quas id consectetur excepturi quisquam nostrum cumque at placeat earum qui culpa.</p>
+                  </div>
+                </div>  
+            </div>
+          </div>
+          <div class="col">
+            <!-- 일주일 상태 -->
+            <h5 class="card-text"><strong>🕊️일주일간의 멘털 상태📖</strong></h5>
+            <h7>긍적적으로 몰입하고 있는지 확인해보세요.</h7>
+
+            <div class="main" id="canvas_area" style="margin-top: 20px;">
+              <div class="chart-container" style="position: relative; height:500px; width:500px">
+                  <canvas id="canvas" height="300px"></canvas>
+              </div> 
+            </div>  
+          </div>
+        </div>
+      </div>
     </section>
 
     <footer class="page-footer font-small cyan darken-3" style="background-color: lightgray;">
