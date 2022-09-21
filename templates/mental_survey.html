@@ -25,6 +25,15 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     
     <style>
+       body {
+        width: 100%;
+        height: 100%;
+        min-width:700px; /* 최소 넓이가 지원되는 브라우져를 위해서 ...FF, IE7, safari */
+        margin: 0px;
+        padding: 0px;  /* 옵션입니다.*/
+        /* 만약 콘텐츠를 가운데 정렬로 하고 싶은 경우 text-align: center 를 타이핑 하시고,
+           패딩값을 적당하게 올려주시면 됩니다.*/
+      }
       * { 
           margin: 0;
           padding: 0;
@@ -69,6 +78,7 @@
       #menu {
           display: flex;
           color: white;
+          width: 100%;
       }
       
       #user {
@@ -100,7 +110,7 @@
 
       .introduce-body{
         width: 860px;
-        margin: 10px auto;
+        margin: 0 auto;
         padding: 30px;
         padding-bottom: 0;
         font-weight: 500;
@@ -149,14 +159,14 @@
       }
 
       
-      function makeCard(text,number, status) {
+      function makeCard(text, number, status) {
         if(status=='p'){
           let card_txt = `<br>
                         <div class="card" id="card-${number}">
                           <div class="card-body" style="margin: 10px;">
                             <div id="text">
-                              <h6 class="card-title" >Question ${number}</h6>
-                              <h4 class="card-text" style="font-weight: 600;">${text}</h4>
+                              <h6 class="card-title" style="text-align: center;">Question ${number}</h6>
+                              <h4 class="card-text" style="font-weight: 600; text-align: center;">${text}</h4>
                             </div>
                             <br>
                             <div id="check" style="text-align: center;">
@@ -182,11 +192,11 @@
         $("#card-list").append(card_txt);
       } else {
           let card_txt = `<br>
-                        <div class="card" id="card-${number}">
+                        <div class="card" style="text-align: center" id="card-${number}">
                           <div class="card-body" style="margin: 10px;">
                             <div id="text">
                               <h6 class="card-title" >Question ${number}</h6>
-                              <h4 class="card-text" style="font-weight: 600;">${text}</h4>
+                              <h4 class="card-text" style="font-weight: 600; text-align: center">${text}</h4>
                             </div>
                             <br>
                             <div id="check" style="text-align: center;">
@@ -205,7 +215,7 @@
                               <label class="btn btn-sm">
                                 <input type="radio" name="n${number}" id="jb-radio-1" value="1" onclick="colorChange(${number})"> 진짜 너무 매우 그렇다.
                               </label>
-                              
+                  
                             </div>
                           </div>
                         </div>`;
@@ -252,7 +262,7 @@
                 data: {user_id: "{{session['id']}}", t_point: total, n_point: n_total, p_point:p_total},
                 success: function (response) {
                     if (response['result'] == 'success') {
-                        alert("저장완료")
+                        alert("설문 결과를 로딩 중입니다...")
                         window.location.href='/mental_result'
                     }
                     else
@@ -288,9 +298,9 @@
         <section class="hbody">
           <article class="nav">
             <div class="title">
-              <ul id="menu">
-                <li class="menu-item1"><a onclick="window.location.href='/mental_survey'">MENTAL TEST</a></li>
-                <li class="menu-item2"><a href="https://jungle5b.herokuapp.com/" target="_blank">JUNGLE B</a></li>
+              <ul id="menu" style="font-weight: bold;">
+                <li class="menu-item1" ><a onclick="window.location.href='/mental_survey'">MENTAL TEST</a></li>
+                <li class="menu-item2"><a href="https://jungle5b.herokuapp.com/" target="_blank">JUNGLE B반</a></li>
               </ul>
             </div>
             <div class="user">
@@ -308,13 +318,13 @@
             <!-- 소개글 -->
             <div class="introduce-body">
               <div id="text">
-                <h3 class="card-text"><strong>🏝️정글 속 당신의 멘탈 상태를 확인해보세요 !💻</strong></h3>
+                <h3 class="card-text"><strong>🏝️정글 속 당신의 멘털 상태를 확인해보세요 !💻</strong></h3>
                 <br>
                 <h6 class="card-text">정글 속에서 매순간, 매일을 몰입해서 보내고 계신 당신의 멘탈 상태를 점검해보아요.</h6>
                 <h6 class="card-text">그리 무겁지도 가볍지도 않은 질문들로 하루를 되돌아보고 결과를 살펴볼 수 있습니다.</h6>
                 <br>
                 <!-- 멘탈 설문 제출 -->
-                <button style="width: 300px;" class="btn btn-outline-success btn" type="submit" onclick="window.location.href='/mental_result'">이전 설문조사 결과 확인하기</button>
+                <button style="width: 300px;" class="btn btn-outline-success btn" type="submit" onclick="window.location.href='/mental_before'">이전 설문조사 결과 확인하기</button>
               </div>
             </div>
 
