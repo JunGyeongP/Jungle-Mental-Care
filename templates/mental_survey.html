@@ -25,15 +25,6 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     
     <style>
-       body {
-        width: 100%;
-        height: 100%;
-        min-width:700px; /* 최소 넓이가 지원되는 브라우져를 위해서 ...FF, IE7, safari */
-        margin: 0px;
-        padding: 0px;  /* 옵션입니다.*/
-        /* 만약 콘텐츠를 가운데 정렬로 하고 싶은 경우 text-align: center 를 타이핑 하시고,
-           패딩값을 적당하게 올려주시면 됩니다.*/
-      }
       * { 
           margin: 0;
           padding: 0;
@@ -135,8 +126,12 @@
   <script>
     var card_count=0 , total=0, n_total=0, p_total = 0;
       $(document).ready(function () {
-        //새로고침하면 다지우고 다시 리스트
-        //  $("#card-list").html("");
+        if("{{session['id']}}" == ""){
+          alert("세션시간 초과!! 다시 로그인해주세요")
+          window.location.href='/login'
+          } 
+        // 새로고침하면 다지우고 다시 리스트
+         $("#card-list").html("");
         listCard();
       });
 
@@ -159,14 +154,14 @@
       }
 
       
-      function makeCard(text, number, status) {
+      function makeCard(text,number, status) {
         if(status=='p'){
           let card_txt = `<br>
                         <div class="card" id="card-${number}">
                           <div class="card-body" style="margin: 10px;">
                             <div id="text">
-                              <h6 class="card-title" style="text-align: center;">Question ${number}</h6>
-                              <h4 class="card-text" style="font-weight: 600; text-align: center;">${text}</h4>
+                              <h6 class="card-title" >Question ${number}</h6>
+                              <h4 class="card-text" style="font-weight: 600;">${text}</h4>
                             </div>
                             <br>
                             <div id="check" style="text-align: center;">
@@ -192,11 +187,11 @@
         $("#card-list").append(card_txt);
       } else {
           let card_txt = `<br>
-                        <div class="card" style="text-align: center" id="card-${number}">
+                        <div class="card" id="card-${number}">
                           <div class="card-body" style="margin: 10px;">
                             <div id="text">
                               <h6 class="card-title" >Question ${number}</h6>
-                              <h4 class="card-text" style="font-weight: 600; text-align: center">${text}</h4>
+                              <h4 class="card-text" style="font-weight: 600;">${text}</h4>
                             </div>
                             <br>
                             <div id="check" style="text-align: center;">
@@ -215,7 +210,7 @@
                               <label class="btn btn-sm">
                                 <input type="radio" name="n${number}" id="jb-radio-1" value="1" onclick="colorChange(${number})"> 진짜 너무 매우 그렇다.
                               </label>
-                  
+                              
                             </div>
                           </div>
                         </div>`;
@@ -229,9 +224,9 @@
       }
       
       function survey_commit() { //카드 업데이트 함수(i를 받아오는 이유 : 카드를 만들 때 카드마다 별도의 id값을 만들어 i값을 통해 각각의 카드의 input과 textarea의 값을 받아오기 위함)
-    var check_p=0,check_n=0;
-    var p_total =0, n_total=0, total=0;
-    for (let i = 1; i <=card_count; i++) {
+      var check_p=0,check_n=0;
+      var p_total =0, n_total=0, total=0;
+      for (let i = 1; i <=card_count; i++) {
          var p_truefalse=$('input[name=p'+i+']').is(":checked");
          if(p_truefalse==true){
            check_p=check_p+1;
@@ -259,10 +254,10 @@
             $.ajax({
                 type: "POST",
                 url: "/api/survey_commit",
-                data: {user_id: "{{session['id']}}", t_point: total, n_point: n_total, p_point:p_total},
+                data: {user_id: "{{session['id']}}", t_point: total},
                 success: function (response) {
                     if (response['result'] == 'success') {
-                        alert("설문 결과를 로딩 중입니다...")
+                        alert("게시물 작성 완료!")
                         window.location.href='/mental_result'
                     }
                     else
@@ -277,7 +272,6 @@
         $.ajax({
           type: "GET",
           url: "/api/logout",
-                    
           success: function (response) {
             if (response['result'] == 'success') {
               alert('로그아웃 완료!');
@@ -294,61 +288,61 @@
 
 </head>
 <body>
-    <header>
-        <section class="hbody">
-          <article class="nav">
-            <div class="title">
-              <ul id="menu" style="font-weight: bold;">
-                <li class="menu-item1" ><a onclick="window.location.href='/mental_survey'">MENTAL TEST</a></li>
-                <li class="menu-item2"><a href="https://jungle5b.herokuapp.com/" target="_blank">JUNGLE B반</a></li>
-              </ul>
-            </div>
-            <div class="user">
-              <p style="color: #FFFFFF;">정글러 {{session['id']}}님 환영합니다.
-                <button type="submit" class="btn-sm" style="background-color: #FFFFFF;"
-              onclick="logout_site()">로그아웃</button></p>
-            </div>
-          </article>
-          
-        </section>
-    </header>
+  <header>
+      <section class="hbody">
+        <article class="nav">
+          <div class="title">
+            <ul id="menu" style="font-weight: bold;">
+              <li class="menu-item1" ><a onclick="window.location.href='/mental_survey'">MENTAL TEST</a></li>
+              <li class="menu-item2"><a href="https://jungle5b.herokuapp.com/" target="_blank">JUNGLE B반</a></li>
+            </ul>
+          </div>
+          <div class="user">
+            <p style="color: #FFFFFF;">정글러 {{session['name']}}님 환영합니다.
+              <button type="submit" class="btn-sm" style="background-color: #FFFFFF;"
+            onclick="logout_site()">로그아웃</button></p>
+          </div>
+        </article>
+        
+      </section>
+  </header>
 
-    <section>
-          <div class="question-list">
-            <!-- 소개글 -->
-            <div class="introduce-body">
-              <div id="text">
-                <h3 class="card-text"><strong>🏝️정글 속 당신의 멘털 상태를 확인해보세요 !💻</strong></h3>
-                <br>
-                <h6 class="card-text">정글 속에서 매순간, 매일을 몰입해서 보내고 계신 당신의 멘탈 상태를 점검해보아요.</h6>
-                <h6 class="card-text">그리 무겁지도 가볍지도 않은 질문들로 하루를 되돌아보고 결과를 살펴볼 수 있습니다.</h6>
-                <br>
-                <!-- 멘탈 설문 제출 -->
-                <button style="width: 300px;" class="btn btn-outline-success btn" type="submit" onclick="window.location.href='/mental_before'">이전 설문조사 결과 확인하기</button>
-              </div>
-            </div>
-
-            <!-- 멘탈 설문 -->
-            <div id="card-list">
-              
-            </div>
-            
-            <!-- 멘탈 설문 제출 -->
-            <div class="mb-3" id="survey_submit">
-            <button style="width: 860px;" class="btn btn-outline-success btn" type="submit" onclick="survey_commit()" >완료</button>
+  <section>
+        <div class="question-list">
+          <!-- 소개글 -->
+          <div class="introduce-body">
+            <div id="text">
+              <h3 class="card-text"><strong>🏝️정글 속 당신의 멘탈 상태를 확인해보세요 !💻</strong></h3>
+              <br>
+              <h6 class="card-text">정글 속에서 매순간, 매일을 몰입해서 보내고 계신 당신의 멘탈 상태를 점검해보아요.</h6>
+              <h6 class="card-text">그리 무겁지도 가볍지도 않은 질문들로 하루를 되돌아보고 결과를 살펴볼 수 있습니다.</h6>
+              <br>
+              <!-- 멘탈 설문 제출 -->
+              <button style="width: 300px;" class="btn btn-outline-success btn" type="submit" onclick="window.location.href='/mental_before'">이전 설문조사 결과 확인하기</button>
             </div>
           </div>
-        </p>
-    </section>
 
-    <footer class="page-footer font-small cyan darken-3" style="background-color: lightgray;">
-      <div class="container" style="padding: 16px; padding-bottom: 0; text-align: center; ">
-        <p>🌱You can see our github🌴</p>
-        <a href="https://github.com/midnightkang" target="_blank">강성우</a>
-        <a href="https://github.com/JunGyeongP" target="_blank">박경준</a>
-        <a href="https://github.com/choidabom" target="_blank">최다봄</a>
-      </div>
-      <div class="footer-copyright text-center py-3">&copy; Jungle week00 Team3. All Rights Reseved.</div>
-    </footer>
+          <!-- 멘탈 설문 -->
+          <div id="card-list">
+            
+          </div>
+          
+          <!-- 멘탈 설문 제출 -->
+          <div class="mb-3" id="survey_submit">
+          <button style="width: 860px;" class="btn btn-outline-success btn" type="submit" onclick="survey_commit()" >완료</button>
+          </div>
+        </div>
+      </p>
+  </section>
+
+  <footer class="page-footer font-small cyan darken-3" style="background-color: lightgray;">
+    <div class="container" style="padding: 16px; padding-bottom: 0; text-align: center; ">
+      <p>🌱You can see our github🌴</p>
+      <a href="https://github.com/midnightkang" target="_blank">강성우</a>
+      <a href="https://github.com/JunGyeongP" target="_blank">박경준</a>
+      <a href="https://github.com/choidabom" target="_blank">최다봄</a>
+    </div>
+    <div class="footer-copyright text-center py-3">&copy; Jungle week00 Team3. All Rights Reseved.</div>
+  </footer>
 </body>
 <html>
