@@ -1,26 +1,43 @@
-<!Doctype html>
+<!DOCTYPE html>
 <html lang="ko">
   <head>
-    <title>JUNGLER MENTAL SURVEY</title>
-
     <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"
+    />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+      integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+      crossorigin="anonymous"
+    ></script>
 
     <!-- 구글폰트 -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
-    
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap"
+      rel="stylesheet"
+    />
+
     <!-- style -->
     <style>
-      *{
-        font-family: 'Noto Sans KR', sans-serif;
+      * {
+        font-family: "Noto Sans KR", sans-serif;
       }
 
       .container {
@@ -37,8 +54,8 @@
       }
 
       .login-box {
-            margin-top: 20px;
-      } 
+        margin-top: 20px;
+      }
 
       img {
         display: block;
@@ -48,7 +65,7 @@
         margin-bottom: 20px;
       }
 
-      h5{
+      h5 {
         text-align: center;
         margin-bottom: 20px;
       }
@@ -61,82 +78,122 @@
         let user_name_sent = $("#input-name").val();
         let user_email_sent = $("#input-email").val();
         var checked = $("#email_check").is(":checked");
-            if(user_id_sent == ""){
-              alert("아이디를 입력하세요!");
+        if (user_id_sent == "") {
+          alert("아이디를 입력하세요!");
+        } else if (password_sent == "") {
+          alert("비밀번호를 입력하세요!");
+        } else if (user_name_sent == "") {
+          alert("이름을 입력하세요!");
+        } else if (email_check(user_email_sent) == false) {
+          alert("이메일 형식에 맞춰 입력하세요!");
+        }
+        // 2. memo에 POST 방식으로 메모 생성 요청하기
+        $.ajax({
+          type: "POST", // POST 방식으로 요청하겠다.
+          url: "/api/create", // /memo라는 url에 요청하겠다.
+          data: {
+            user_id: user_id_sent,
+            password: password_sent,
+            user_name: user_name_sent,
+            e_mail: user_email_sent,
+            email_check: checked,
+          }, // 데이터를 주는 방법
+          success: function (response) {
+            if (response["result"] == "success") {
+              alert("정글러님, 환영합니다 :)");
+              window.location.href = "/login";
+            } else if (response["result"] == "false") {
+              alert("존재하는 ID입니다.");
+            } else {
+              alert("서버 오류");
             }
-            else if(password_sent == ""){
-                alert("비밀번호를 입력하세요!");
-            }
-            else if(user_name_sent == ""){
-              alert("이름을 입력하세요!");
-            }
-            else{
-              $.ajax({
-                type: "POST", // POST 방식으로 요청하겠다.
-                url: "/api/create", // /memo라는 url에 요청하겠다.
-                data: {
-                  user_id: user_id_sent,
-                  password: password_sent,
-                  user_name: user_name_sent,
-                  e_mail: user_email_sent,
-                  email_check: checked,
-                }, // 데이터를 주는 방법
-                success: function (response) {
-                  if (response["result"] == "success") {
-                    alert("정글러님, 환영합니다 :)");
-                    window.location.href = "/login";
-                  } else if (response["result"] == "false") {
-                    alert("존재하는 ID입니다.");
-                  } else {
-                    alert("서버 오류");
-                  }
-                },
-              });
-            }
+          },
+        });
       }
+      function email_check(email) {
+        //email_양식에 맞는지 확인하는 함수
 
+        var regex =
+          /([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+        return email != "" && email != "undefined" && regex.test(email);
+      }
+      // 비밀번호 재확인 기능 구현
     </script>
   </head>
   <body>
     <div class="container">
       <h1></h1>
       <div class="login-box">
-        <a onclick="window.location.href='/login'"><img src="..\static\logo.png"></a>
-        <h5><strong><strong style="color: #0f6a08">SIGN UP</strong> FOR JUNGLER MENTAL</strong></h5>
-        <div style="margin: 30px;">
-          <div style="width: 310px;">
+        <a onclick="window.location.href='/login'"
+          ><img src="..\static\logo.png"
+        /></a>
+        <h5>
+          <strong
+            ><strong style="color: #0f6a08">SIGN UP</strong> FOR JUNGLER
+            MENTAL</strong
+          >
+        </h5>
+        <div style="margin: 30px">
+          <div style="width: 310px">
             <!-- 아이디 -->
             <div class="mb-3">
-              <input id="input-id" class="form-control" placeholder="아이디">
+              <input id="input-id" class="form-control" placeholder="아이디" />
             </div>
 
             <!-- 비밀번호 -->
             <div class="mb-3">
-                <input id="input-pw" class="form-control" placeholder="비밀번호" type="password"> 
+              <input
+                id="input-pw"
+                class="form-control"
+                placeholder="비밀번호"
+                type="password"
+              />
             </div>
 
             <!-- 이름 -->
             <div class="mb-3">
-                <input id="input-name" class="form-control" placeholder="이름"> 
+              <input id="input-name" class="form-control" placeholder="이름" />
             </div>
 
             <!-- 이메일 -->
             <div class="mb-3">
-                <input type="email" id="input-email"class="form-control" placeholder="이메일  ex) jungler@naver.com"/>
-            </div>
-    
-            <!-- 이메일 전송 체크박스 -->
-            <div style="margin: center;">
-              <input class="form-check-input" type="checkbox" value="yyy" id="email_check" checked>
-              <label class="form-check-label-success" for="flexCheckChecked" style="font-size: small; margin-bottom: 20px;">JUNGLER MENTAL 사이트를 이메일로 받으시겠습니까?</label>
+              <input
+                type="email"
+                id="input-email"
+                class="form-control"
+                placeholder="이메일  ex) jungler@naver.com"
+              />
             </div>
 
-             <!-- 회원가입 -->
-            <div class="mb-3">
-              <button style="width: 310px;" type="submit" class="btn btn-outline-success btn" onclick="CreateId()">회원가입</button>
+            <!-- 이메일 전송 체크박스 -->
+            <div style="margin: center">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                value="yyy"
+                id="email_check"
+                checked
+              />
+              <label
+                class="form-check-label-success"
+                for="flexCheckChecked"
+                style="font-size: small; margin-bottom: 20px"
+                >JUNGLER MENTAL 사이트를 이메일로 받으시겠습니까?</label
+              >
             </div>
-            
-          </div>  
+
+            <!-- 회원가입 -->
+            <div class="mb-3">
+              <button
+                style="width: 310px"
+                type="submit"
+                class="btn btn-outline-success btn"
+                onclick="CreateId()"
+              >
+                회원가입
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>

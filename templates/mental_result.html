@@ -1,90 +1,107 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-   <title>JUNGLER MENTAL RESULT</title>
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <title>JUNGLER MENTAL RESULT</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <!-- 폰트 -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
-    
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap"
+      rel="stylesheet"
+    />
+
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
-        integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+      integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l"
+      crossorigin="anonymous"
+    />
 
     <!-- Optional JavaScript -->
     <!-- jQuery and Bootstrap Bundle (includes Popper) -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
+    <script
+      src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+      integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
+      crossorigin="anonymous"
+    ></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    
+
     <!-- graph 작성 시 필요 -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@0.7.0"></script>   
-    
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@0.7.0"></script>
+
     <style>
-       body {
+      body {
         width: 100%;
         height: 100%;
-        min-width:700px; /* 최소 넓이가 지원되는 브라우져를 위해서 ...FF, IE7, safari */
+        min-width: 700px; /* 최소 넓이가 지원되는 브라우져를 위해서 ...FF, IE7, safari */
         margin: 0px;
-        padding: 0px;  /* 옵션입니다.*/
+        padding: 0px; /* 옵션입니다.*/
         /* 만약 콘텐츠를 가운데 정렬로 하고 싶은 경우 text-align: center 를 타이핑 하시고,
-           패딩값을 적당하게 올려주시면 됩니다.*/
+          패딩값을 적당하게 올려주시면 됩니다.*/
       }
-      * { 
-          margin: 0;
-          padding: 0;
-          font-family: 'Noto Sans KR', sans-serif;
+      * {
+        margin: 0;
+        padding: 0;
+        font-family: "Noto Sans KR", sans-serif;
       }
 
       /* header */
-      a { 
-          text-decoration: none;
-          color: inherit;
+      a {
+        text-decoration: none;
+        color: inherit;
       }
 
-      li { list-style-type: none; }
+      li {
+        list-style-type: none;
+      }
 
       .hbody {
-          background-color: black;
-          width: 100%;
-          height: 100px;
+        background-color: black;
+        width: 100%;
+        height: 100px;
       }
 
       .nav {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          padding: 15px 50px;
-          color: white;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 50px;
+        color: white;
       }
 
       .title {
-          font-size: 1.5em;
+        font-size: 1.5em;
       }
 
       .title > a {
-          color: white;
+        color: white;
       }
 
-      .menu-item2 a{ /* JUNGLE B 하이퍼링크 밑줄, 색깔 없애기*/
+      .menu-item2 a {
+        /* JUNGLE B 하이퍼링크 밑줄, 색깔 없애기*/
         text-decoration: none;
-        color: inherit; 
-        
+        color: inherit;
       }
 
       #menu {
-          display: flex;
-          color: white;
+        display: flex;
+        color: white;
       }
-      
+
       #user {
         margin-left: auto;
         margin-top: 5px;
@@ -92,19 +109,20 @@
       }
 
       #menu > li {
-          padding: 20px 10px;
-          font-size: 20px;
+        padding: 20px 10px;
+        font-size: 20px;
       }
 
       /* body */
-      .introduce{ /* 소개글 */
+      .introduce {
+        /* 소개글 */
         width: 860px;
         margin: 10px auto;
         padding: 10px 20px;
         padding-bottom: 0;
       }
 
-      #card-list { 
+      #card-list {
         width: 900px;
         margin: 0 auto;
         padding: 10px 20px;
@@ -117,127 +135,220 @@
         padding: 30px;
         font-weight: 500;
       }
-      #text{
+      #text {
         text-align: center;
       }
 
-      #both-result{
+      #both-result {
         padding: 30px;
         text-align: center;
       }
+    </style>
 
-  </style>
-
-  <script>
-    $(document).ready(function () {
-      show_result_graph();
-    });
-    function logout_site() {
-      $.ajax({
-        type: "GET",
-        url: "/api/logout",
-
-        success: function (response) {
-          if (response["result"] == "success") {
-            alert("로그아웃 완료!");
-            window.location.href = "/login";
-          } else {
-            alert("서버 오류!");
-          }
-        },
+    <script>
+      $(document).ready(function () {
+        if ("{{session['id']}}" == "") {
+          alert("세션시간 초과!! 다시 로그인해주세요");
+          window.location.href = "/login";
+        }
+        get_recent_score();
+        show_result_graph();
       });
-    }
-    function show_result_graph() {
-      arr = [];
-      p_date = [];
-      n_date = [];
+      function logout_site() {
+        $.ajax({
+          type: "GET",
+          url: "/api/logout",
 
-      $.ajax({
-        type: "POST",
-        url: "/api/post_result",
-        data: { user_id: "{{session['id']}}" },
-
-        success: function (response) {
-          if (response["result"] == "success") {
-            let result_list = response["result_survey"];
-            for (let i = 0; i < result_list.length; i++) {
-              arr.unshift(result_list[i]["date"]);
-              p_date.unshift(result_list[i]["t_point"]);
-              n_date.unshift(100 - result_list[i]["t_point"]);
+          success: function (response) {
+            if (response["result"] == "success") {
+              alert("로그아웃 완료!");
+              window.location.href = "/login";
+            } else {
+              alert("서버 오류!");
             }
-            drawBarHeight(arr, p_date, n_date);
-          }
-        },
-      });
-    }
-    function drawBarHeight(arr, p_date, n_date) {
-      new Chart(document.getElementById("canvas"), {
-        type: "bar",
-        data: {
-          labels: arr,
-          datasets: [
-            {
-              label: "긍정적 답변",
-              data: p_date,
-              backgroundColor: "rgba(0, 128, 128, 0.5)",
-            },
-          ],
-        },
-        options: {
-          title: { display: false, text: "result" },
-          responsive: true,
-          tooltips: {
-            enabled: false,
           },
-          hover: {
-            mode: "nearest",
-            intersect: true,
-          },
-          legend: {
-            display: true,
-          },
-          scales: {
-            xAxes: [
-              {
-                ticks: {
-                  fontSize: 10,
-                },
-                display: true,
-                stacked: false,
-                barThickness: 20,
-              },
-            ],
-            yAxes: [
-              {
-                ticks: {
-                  min: 0,
-                  max: 100,
-                  fontSize: 14,
-                },
-                display: true,
-                stacked: false,
-                barThickness: 100,
-              },
-            ],
-          },
-          plugins: {
-            datalabels: {
-              color: "black",
-              font: {
-                weight: "bold",
-              },
-              formatter: function (value, context) {
-                return Math.round(value);
-              },
-            },
-          },
-        },
-      });
-    }
-  </script>
+        });
+      }
+      function show_result_graph() {
+        arr = [];
+        p_date = [];
+        n_date = [];
 
-</head>
-<body>
+        $.ajax({
+          type: "POST",
+          url: "/api/post_result",
+          data: { user_id: "{{session['id']}}" },
+
+          success: function (response) {
+            if (response["result"] == "success") {
+              let result_list = response["result_survey"];
+              for (let i = 0; i < result_list.length; i++) {
+                arr.unshift(result_list[i]["date"]);
+                p_date.unshift(result_list[i]["t_point"]);
+              }
+              drawBarHeight(arr, p_date);
+            }
+          },
+        });
+      }
+      function drawBarHeight(arr, p_date) {
+        new Chart(document.getElementById("canvas"), {
+          type: "bar",
+          data: {
+            labels: arr,
+            datasets: [
+              {
+                label: "긍정적 답변",
+                data: p_date,
+                backgroundColor: "rgba(0, 128, 128, 0.5)",
+              },
+            ],
+          },
+          options: {
+            title: { display: false, text: "result" },
+            responsive: true,
+            tooltips: {
+              enabled: false,
+            },
+            hover: {
+              mode: "nearest",
+              intersect: true,
+            },
+            legend: {
+              display: true,
+            },
+            scales: {
+              xAxes: [
+                {
+                  ticks: {
+                    fontSize: 10,
+                  },
+                  display: true,
+                  stacked: false,
+                  barThickness: 20,
+                },
+              ],
+              yAxes: [
+                {
+                  ticks: {
+                    min: 0,
+                    max: 100,
+                    fontSize: 14,
+                  },
+                  display: true,
+                  stacked: false,
+                  barThickness: 100,
+                },
+              ],
+            },
+            plugins: {
+              datalabels: {
+                color: "black",
+                font: {
+                  weight: "bold",
+                },
+                formatter: function (value, context) {
+                  return Math.round(value);
+                },
+              },
+            },
+          },
+        });
+      }
+      function get_recent_score() {
+        $.ajax({
+          type: "POST",
+          url: "/api/recent_score",
+          data: { user_id: "{{session['id']}}" },
+
+          success: function (response) {
+            if (response["result"] == "success") {
+              let result_list = response["recentscore"];
+              let get_score = result_list[0]["t_point"];
+              let score = Number(get_score);
+
+              if (score >= 90) {
+                let tempHtml = `<h1>👏${score}점 !</h1>
+              <div class="mb-3" style="margin-top: 20px;">
+                    <h5>오늘의 멘탈 총점수는 "물아일체"입니다.</h5> 
+              와우 ! 정글에서 이런 멘탈점수라니 타잔이신가요?<br>
+              주어진 상황이 자신에게 잘 어울리고 조화가 되니 몸과 마음이 가벼워지는 날입니다.</p>
+              <div class="login-box" style="margin-top:50px">
+                <h5 class="card-text"><strong>🍵추천 멘탈 관리😴</strong></h5>
+                <h7>초초긍정 멋진 당신! 정글에서 살아남아보아요.<br>
+                  장병규 의장님이 말씀하신 것처럼 자신만의 <strong>Ritual(의식)</strong>을 만들어보는게 어떨까요?</h7>
+                <div>
+                  <div class="mb-3" style="margin-top: 20px;">
+                    <ul>
+                      <li><a target="_blank" rel="stylesheet" href="https://jungle5b.herokuapp.com/pages/FAQ.html" >✨ 나의 궁금증을 찾아보고 다시 다짐을 되새겨요.</li>
+                      
+                      <li><a target="_blank" rel="stylesheet" href="https://www.youtube.com/?gl=KR">👻 열심히 공부한 당신, 좋아하는 영상을 보아요.</li>
+
+                    </ul>
+                  </div>
+                </div>  
+              </div>
+              </div>
+              `;
+                $("#feedback").append(tempHtml);
+              } else if (score >= 70) {
+                let tempHtml = `<h1>👌${score}점 !</h1>
+              <div class="mb-3" style="margin-top: 10px;">
+                <h5>오늘의 멘탈 총점수는 "독서망양"입니다.</h5>  
+              시간이 흘러 수료할 즈음이면 모든 것이 원했던 방향으로 흘러가고 있을 터이니 걱정 마세요.
+              비록 힘은 들지만 노력이 있을 때 변화가 찾아온다는 사실을 잊지 않는다면 좋겠습니다.</p>
+               
+                <div class="login-box" style="margin-top:50px">
+                <h5 class="card-text"><strong>🍵추천 멘탈 관리😴</strong></h5>
+                <h7>긍정적으로 몰입하는 과정을 즐겨보아요.<br>
+                  장병규 의장님이 말씀하신 것처럼 자신만의 <strong>Ritual(의식)</strong>을 만들어보는게 어떨까요?</h7>
+                <div>
+                  <div class="mb-3" style="margin-top: 20px;">
+                    <ul>
+                      <li><a target="_blank" rel="stylesheet" href="https://www.youtube.com/watch?v=dZewQEbQQM0" >🧘 명상을 통해 오늘 하루를 회고해보아요.</li>
+                      
+                      <li><a target="_blank" rel="stylesheet" href="https://www.mangoplate.com/top_lists/1259_daejeon">🎹 카이스트 주변 맛집을 가보아요.</li>
+
+                    </ul>
+                  </div>
+                </div>  
+              </div>
+              </div>
+               `;
+                $("#feedback").append(tempHtml);
+              } else {
+                let tempHtml = `<h1>⚠️${score}점 !</h1>
+              <div class="mb-3" style="margin-top: 20px;">
+                <h5>오늘의 멘탈 총점수는 "혼비중천"입니다.</h5>
+              전반적인 몸의 컨디션이 좋지 않은 상태이니 부담을 내려놓고 컨디션 조절에 신경을 쓸 필요가 있겠습니다.<br>
+              건강보다 뭣이 중헌디!</p>
+             
+                <div class="login-box" style="margin-top:50px">
+                  <h5 class="card-text"><strong>🍵추천 멘탈 관리😴</strong></h5>
+                  <h7>힘들수록 열심히 살았다는 증거라고 생각해요.<br>
+                    장병규 의장님이 말씀하신 것처럼 자신만의 <strong>Ritual(의식)</strong>을 만들어보는게 어떨까요?</h7>
+                  <div>
+                    <div class="mb-3" style="margin-top: 20px;">
+                      <ul>
+                        <li><a target="_blank" rel="stylesheet" href="https://jungle5b.herokuapp.com/pages/cafe-conv.html">🚶‍♂️ 룸메와 함께 산책을 해보아요.</li>
+                        
+                        <li><a target="_blank" rel="stylesheet" href="https://www.youtube.com/watch?v=97_VJve7UVc&list=RD97_VJve7UVc&start_radio=1">🎹 잔잔해지는 클래식을 들어봐아요.</li>
+
+                      </ul>
+                    </div>
+                  </div>  
+                </div>
+              </div>
+              `;
+              $("#feedback").append(tempHtml);
+              }
+            }
+          },
+        });
+      }
+    </script>
+  </head>
+  <body>
     <header>
         <section class="hbody">
           <article class="nav">
@@ -248,7 +359,7 @@
               </ul>
             </div>
             <div class="user">
-              <p style="color: #FFFFFF;">정글러 {{session['id']}}님 환영합니다.
+              <p style="color: #FFFFFF;">정글러 {{session['name']}}님 환영합니다.
                 <button type="submit" class="btn-sm" style="background-color: #FFFFFF;"
               onclick="logout_site()">로그아웃</button></p>
             </div>
@@ -260,7 +371,7 @@
       <div class="mental-result">
         <div class="result-body">
           <div id="text">
-            <h3 class="card-text"><strong>🏝️정글 속 {{session['id']}}님의 멘털 상태 결과입니다 !💻</strong></h3>
+            <h3 class="card-text"><strong>🏝️정글 속 {{session['name']}}님의 멘탈 상태 결과입니다 !💻</strong></h3>
           </div>
         </div>
       </div>
@@ -270,17 +381,18 @@
           <div class="col">
             <!-- 오늘의 상태 -->
             <div class="login-box">
-              <h5 class="card-text"><strong>🐣오늘 하루의 멘털 상태🙌</strong></h5>
+              <h5 class="card-text"><strong>🐣오늘 하루의 멘탈 상태🙌</strong></h5>
+              <h7>오늘 하루의 멘탈적 긍정은</h7>
                 <div>
-                  <div class="mb-3">
-                    <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Inventore, praesentium molestias accusantium voluptate nulla repellendus! Blanditiis, harum, saepe, quas id consectetur excepturi quisquam nostrum cumque at placeat earum qui culpa.</p>
+                  <div class="mb-3" style="margin-top: 20px;">
+                    <p id="feedback"></p>
                   </div>
                 </div>  
             </div>
           </div>
           <div class="col">
             <!-- 일주일 상태 -->
-            <h5 class="card-text"><strong>🕊️일주일간의 멘털 상태📖</strong></h5>
+            <h5 class="card-text"><strong>🕊️최근 멘탈 상태📖</strong></h5>
             <h7>긍적적으로 몰입하고 있는지 확인해보세요.</h7>
 
             <div class="main" id="canvas_area" style="margin-top: 20px;">
@@ -295,16 +407,12 @@
 
     <footer class="page-footer font-small cyan darken-3" style="background-color: lightgray;">
       <div class="container" style="padding: 16px; padding-bottom: 0; text-align: center; ">
-        <p>🌱You can see our github🌴</p>
+        <p><a target="_blank" rel="stylesheet" href="https://github.com/JunGyeongP/week00_Team3">🌱You can see our github🌴</p>
         <a href="https://github.com/midnightkang" target="_blank">강성우</a>
         <a href="https://github.com/JunGyeongP" target="_blank">박경준</a>
         <a href="https://github.com/choidabom" target="_blank">최다봄</a>
       </div>
       <div class="footer-copyright text-center py-3">&copy; Jungle week00 Team3. All Rights Reseved.</div>
     </footer>
-
-
-    
-
 </body>
-<html>
+</html>

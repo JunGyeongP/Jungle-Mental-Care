@@ -130,6 +130,10 @@
 
   <script>
     $(document).ready(function () {
+      if ("{{session['id']}}" == "") {
+          alert("세션시간 초과!! 다시 로그인해주세요");
+          window.location.href = "/login";
+      }
       show_result_graph();
     });
     function logout_site() {
@@ -197,7 +201,7 @@
 
             }
             else{
-                drawBarHeight(arr, p_date, n_date);
+                drawBarHeight(arr, p_date);
                 // $(document).ready(function () {
                 //     //새로고침하면 다지우고 다시 리스트
                 //     $(".before-section").html("");
@@ -209,7 +213,7 @@
         },
       });
     }
-    function drawBarHeight(arr, p_date, n_date) {
+    function drawBarHeight(arr, p_date) {
       new Chart(document.getElementById("canvas"), {
         type: "bar",
         data: {
@@ -287,7 +291,7 @@
               </ul>
             </div>
             <div class="user">
-              <p style="color: #FFFFFF;">정글러 {{session['id']}}님 환영합니다.
+              <p style="color: #FFFFFF;">정글러 {{session['name']}}님 환영합니다.
                 <button type="submit" class="btn-sm" style="background-color: #FFFFFF;"
               onclick="logout_site()">로그아웃</button></p>
             </div>
@@ -299,7 +303,7 @@
       <div class="mental-result">
         <div class="result-body">
           <div id="text">
-            <h3 class="card-text"><strong>🏝️정글 속 {{session['id']}}님의 멘털 상태 결과입니다 !💻</strong></h3>
+            <h3 class="card-text"><strong>🏝️정글 속 {{session['name']}}님의 멘탈 상태 결과입니다 !💻</strong></h3>
           </div>
         </div>
       </div>
@@ -308,7 +312,7 @@
         <div class="row">
           <div class="col">
             <!-- 일주일 상태 -->
-            <h5 class="card-text"><strong>🕊️일주일간의 멘털 상태📖</strong></h5>
+            <h5 class="card-text"><strong>🕊️최근 멘탈 상태📖</strong></h5>
             <h7>긍적적으로 몰입하고 있는지 확인해보세요.</h7>
 
             <div class="main" id="canvas_area" style="margin-top: 20px;">
@@ -323,7 +327,7 @@
 
     <footer class="page-footer font-small cyan darken-3" style="background-color: lightgray;">
       <div class="container" style="padding: 16px; padding-bottom: 0; text-align: center; ">
-        <p>🌱You can see our github🌴</p>
+        <p><a target="_blank" rel="stylesheet" href="https://github.com/JunGyeongP/week00_Team3">🌱You can see our github🌴</p>
         <a href="https://github.com/midnightkang" target="_blank">강성우</a>
         <a href="https://github.com/JunGyeongP" target="_blank">박경준</a>
         <a href="https://github.com/choidabom" target="_blank">최다봄</a>
