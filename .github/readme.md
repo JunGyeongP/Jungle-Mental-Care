@@ -48,7 +48,7 @@ AWS EC2
 
 1) DB에 회원정보가 없을 경우
 <p align="center"><img width="90%" src="https://user-images.githubusercontent.com/48302257/193451655-d9391f9b-e173-40fb-a7fe-f0fbde3ad708.png"/></p>
-<p align="center"><img src="https://user-images.githubusercontent.com/48302257/193451730-93b0adf6-a6f1-486c-8dbe-5c3e87b1dcdb.png"/></p>
+<p align="center"><img width="90%" src="https://user-images.githubusercontent.com/48302257/193451730-93b0adf6-a6f1-486c-8dbe-5c3e87b1dcdb.png"/></p>
 
 2) 처음 설문조사를 한 경우
 <p align="center"><img width="90%" src="https://user-images.githubusercontent.com/48302257/193451791-42120032-5901-4a2e-a614-6563ad9e6155.png"/></p>
